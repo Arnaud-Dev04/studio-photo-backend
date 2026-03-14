@@ -8,6 +8,41 @@ auth_bp = Blueprint('auth', __name__)
 
 
 # ============================================================
+# POST /auth/setup — Créer le premier admin (uniquement si aucun user n'existe)
+# ============================================================
+@auth_bp.route('/setup', methods=['POST'])
+def setup():
+    """Créer le premier administrateur (fonctionne une seule fois)
+    ---
+    tags:
+      - Auth
+    responses:
+      201:
+        description: Admin créé
+      403:
+        description: Des utilisateurs existent déjà
+    """
+    if User.query.count() > 0:
+        return jsonify({'erreur': 'Des utilisateurs existent déjà. Utilisez /auth/register.'}), 403
+
+    admin = User(
+        email='admin@studio.com',
+        nom='Administrateur',
+        telephone='+257 79 000 000',
+        role='admin',
+    )
+    admin.set_password('admin123')
+    db.session.add(admin)
+    db.session.commit()
+
+    return jsonify({
+        'message': 'Admin créé avec succès',
+        'email': 'admin@studio.com',
+        'password': 'admin123',
+    }), 201
+
+
+# ============================================================
 # POST /auth/register — Inscription d'un nouveau membre (admin only)
 # ============================================================
 @auth_bp.route('/register', methods=['POST'])
