@@ -1,0 +1,45 @@
+# Framework Flask
+Flask==3.1.0
+Flask-CORS==5.0.1
+flasgger==0.9.7.1
+gunicorn==23.0.0
+
+# Base de données
+Flask-SQLAlchemy==3.1.1
+SQLAlchemy==2.0.36
+psycopg2-binary==2.9.10
+Flask-Migrate==4.1.0
+
+# Authentification
+PyJWT==2.10.1
+bcrypt==4.2.1
+
+# Upload et stockage photos
+cloudinary==1.42.1
+Pillow==11.1.0
+
+# QR Code
+qrcode==8.0
+
+# Email
+Flask-Mail==0.10.0
+
+# Tâches asynchrones
+celery==5.4.0
+redis==5.2.1
+
+# Scheduler (alertes automatiques)
+APScheduler==3.11.0
+
+# Génération PDF
+reportlab==4.2.5
+
+# Notifications push Firebase
+firebase-admin==6.6.0
+
+# Variables d'environnement
+python-dotenv==1.0.1
+
+# Utilitaires
+marshmallow==3.23.2
+python-dateutil==2.9.0

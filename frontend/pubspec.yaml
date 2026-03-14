@@ -1,0 +1,57 @@
+name: studio_photo
+description: Application de studio photo freelance - Interface luxe dark theme
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.7.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # État
+  flutter_riverpod: ^2.5.1
+
+  # Navigation
+  go_router: ^14.2.7
+
+  # HTTP
+  dio: ^5.6.0
+
+  # Stockage local
+  hive_flutter: ^1.1.0
+  shared_preferences: ^2.3.2
+
+  # Animations
+  animate_do: ^3.3.4
+  flutter_animate: ^4.5.0
+  shimmer: ^3.0.0
+
+  # Galerie et images
+  flutter_staggered_grid_view: ^0.7.0
+  cached_network_image: ^3.3.1
+  image_picker: ^1.1.2
+
+  # Graphiques
+  fl_chart: ^0.68.0
+
+  # Scanner QR
+  qr_flutter: ^4.1.0
+
+  # Polices Google
+  google_fonts: ^6.2.1
+
+  # Utilitaires
+  intl: ^0.19.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
