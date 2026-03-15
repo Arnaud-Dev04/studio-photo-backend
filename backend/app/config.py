@@ -19,16 +19,16 @@ class Config:
     # Render utilise parfois 'postgres://' au lieu de 'postgresql://'
     if SQLALCHEMY_DATABASE_URI.startswith('postgres://'):
         SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace('postgres://', 'postgresql://', 1)
+    # Ajouter sslmode et timeout pour Supabase si c'est PostgreSQL
+    if 'postgresql' in SQLALCHEMY_DATABASE_URI and 'sslmode' not in SQLALCHEMY_DATABASE_URI:
+        separator = '&' if '?' in SQLALCHEMY_DATABASE_URI else '?'
+        SQLALCHEMY_DATABASE_URI += f'{separator}sslmode=require&connect_timeout=10'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_recycle': 300,
         'pool_pre_ping': True,
         'pool_size': 5,
         'max_overflow': 10,
-        'connect_args': {
-            'connect_timeout': 10,
-            'sslmode': 'require',
-        },
     }
 
     # --- JWT ---
