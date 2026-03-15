@@ -114,13 +114,48 @@ def create_app():
         """
         return {'status': 'ok'}, 200
 
-    # Créer les tables si elles n'existent pas (dev uniquement)
+    # Endpoint diagnostic — teste la connexion DB
+    @app.route('/health')
+    def health():
+        """Diagnostic complet du serveur
+        ---
+        tags:
+          - Système
+        responses:
+          200:
+            description: Serveur et DB OK
+          500:
+            description: Problème de connexion DB
+        """
+        import os
+        result = {
+            'server': 'ok',
+            'python_version': os.popen('python --version').read().strip(),
+            'database_url_set': bool(os.getenv('DATABASE_URL')),
+        }
+        try:
+            db.session.execute(db.text('SELECT 1'))
+            result['database'] = 'ok'
+        except Exception as e:
+            result['database'] = 'error'
+            result['db_error'] = str(e)
+            return result, 500
+        return result, 200
+
+    # Créer les tables si elles n'existent pas
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            app.logger.info('[DB] Tables créées / vérifiées avec succès')
+        except Exception as e:
+            app.logger.error(f'[DB] Erreur création tables : {str(e)}')
 
     # Initialiser le scheduler pour les alertes automatiques
-    from app.scheduler import init_scheduler
-    init_scheduler(app)
+    try:
+        from app.scheduler import init_scheduler
+        init_scheduler(app)
+    except Exception as e:
+        app.logger.error(f'[Scheduler] Erreur initialisation : {str(e)}')
 
     return app
 
